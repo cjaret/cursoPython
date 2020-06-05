@@ -1,29 +1,19 @@
-import turtle
+def foreign_exchange_calculator(ammount):
+    mex_to_col_rate = 145.97
 
-def main(): #Esta será la función principal
-    window = turtle.Screen() #Abrimos la ventana
-    tortuga = turtle.Turtle() #Generar una tortuga
+    return mex_to_col_rate * ammount
 
-    mksquare(tortuga) #Haz un cuadrado
-    turtle.mainloop() #Mantener la ventana abierta
+def run():
+    print('C A L C U L A D O R A  D E  D I V I S A S')
+    print('Convierte pesos mexicanos a pesos colombianos.')
+    print('')
 
-def mksquare(tortuga):
-    length = int(input("Qué tan grande quieres tu cuadrado: "))
-    
-    for i in range(4):
-        mklineAndTurn(tortuga, length)
+    ammount = float(input('Ingresa la cantidad de pesos mexicanos que quieres convertir: '))
 
-def mklineAndTurn(tortuga, length):
-    tortuga.forward(length)
-    tortuga.left(90)
-    
+    result = foreign_exchange_calculator(ammount) #Se puede hacer asignar el resultado de una función a una variable
 
+    print('${} pesos mexicanos son ${} pesos colombianos'.format(ammount, result)) #El primer par de corchetes toma el valor de la primer variable declarada en el método format, y así respectivamente
+    print('')
 
-""" 
-
-Es importante definir dónde tienen que empezar los programas en python, pues son una secuencia de comandos y tienen que iniciar en algún lugar. Python le llama main a los archivos que corre.
-
-"""
-
-if __name__ == "__main__": #Si el nombre de este archivo es igual al main que estás corriendo, ejecuta la función main
-    main()
+if __name__ == '__main__':
+    run()
