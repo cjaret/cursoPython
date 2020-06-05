@@ -1,14 +1,2 @@
-import turtle
-
-window = turtle.Screen()
-dave = turtle.Turtle()
-dave.forward(50)
-dave.left(90)
-dave.forward(50)
-dave.left(90)
-dave.forward(50)
-dave.left(90)
-dave.forward(50)
-dave.left(90)
-
-turtle.mainloop()
+name = str(input("¿Cuál es tu nomre? "))
+print("Hola, " + name)
