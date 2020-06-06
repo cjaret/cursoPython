@@ -1,19 +1,135 @@
-def foreign_exchange_calculator(ammount):
-    mex_to_col_rate = 145.97
+import random
 
-    return mex_to_col_rate * ammount
+
+
+IMAGES = ['''
+
+    +---+
+    |   |
+        |
+        |
+        |
+        |
+        =========''', '''
+
+    +---+
+    |   |
+    O   |
+        |
+        |
+        |
+        =========''', '''
+
+    +---+
+    |   |
+    O   |
+    |   |
+        |
+        |
+        =========''', '''
+
+    +---+
+    |   |
+    O   |
+   /|   |
+        |
+        |
+        =========''', '''
+
+    +---+
+    |   |
+    O   |
+   /|\  |
+        |
+        |
+        =========''', '''
+
+    +---+
+    |   |
+    O   |
+   /|\  |
+    |   |
+        |
+        =========''', '''
+
+    +---+
+    |   |
+    O   |
+   /|\  |
+    |   |
+   /    |
+        =========''', '''
+
+    +---+
+    |   |
+    O   |
+   /|\  |
+    |   |
+   / \  |
+        =========''', '''
+''']
+
+WORDS = [
+    'lavadora',
+    'secadora',
+    'sofa',
+    'gobierno',
+    'diputado',
+    'democracia',
+    'computadora',
+    'teclado'
+]
+
+
+def random_word():
+    idx = random.randint(0, len(WORDS) - 1)
+    return WORDS[idx]
+
+
+def display_board(hidden_word, tries):
+    print(IMAGES[tries])
+    print('')
+    print(hidden_word)
+    print('--- * --- * --- * --- * --- * --- ')
+
 
 def run():
-    print('C A L C U L A D O R A  D E  D I V I S A S')
-    print('Convierte pesos mexicanos a pesos colombianos.')
-    print('')
+    word = random_word()
+    hidden_word = ['-'] * len(word)
+    tries = 0
 
-    ammount = float(input('Ingresa la cantidad de pesos mexicanos que quieres convertir: '))
+    while True:
+        display_board(hidden_word, tries)
+        current_letter = str(input('Escoge una letra: '))
 
-    result = foreign_exchange_calculator(ammount) #Se puede hacer asignar el resultado de una función a una variable
+        letter_indexes = []
+        for idx in range(len(word)):
+            if word[idx] == current_letter:
+                letter_indexes.append(idx)
 
-    print('${} pesos mexicanos son ${} pesos colombianos'.format(ammount, result)) #El primer par de corchetes toma el valor de la primer variable declarada en el método format, y así respectivamente
-    print('')
+        if len(letter_indexes) == 0:
+            tries += 1
+
+            if tries == 7:
+                display_board(hidden_word, tries)
+                print('')
+                print('¡Perdiste! La palabra correcta era {}'.format(word))
+                break
+        else:
+            for idx in letter_indexes:
+                hidden_word[idx] = current_letter
+
+            letter_indexes = []
+
+        try:
+            hidden_word.index('-')
+        except ValueError:
+            print('')
+            print('¡Felicidades! Ganaste. La palabra es: {}'.format(word))
+            break
+
+
 
 if __name__ == '__main__':
+    print('B I E N V E N I D O S  A  A H O R C A D O S')
     run()
