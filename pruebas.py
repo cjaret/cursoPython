@@ -15,7 +15,7 @@ def first_not_repeating_char(char_sequence):
             seen_letters[letter] = (seen_letters[letter][0], seen_letters[letter][1] + 1)
 
     final_letters = []
-    for key, value in seen_letters.iteritems():
+    for key, value in seen_letters.items():
         if value[1] == 1:
             final_letters.append( (key, value[0]) )
 
@@ -28,7 +28,7 @@ def first_not_repeating_char(char_sequence):
 
 
 if __name__ == '__main__':
-    char_sequence = str(raw_input('Escribe una secuencia de caracteres: '))
+    char_sequence = str(input('Escribe una secuencia de caracteres: '))
 
     result = first_not_repeating_char(char_sequence)
 
