@@ -1,25 +1,21 @@
-from lamp import Lamp
+def protected(func):
 
+    def wrapper(password):
 
-def run():
-    lamp = Lamp(is_turned_on=False)
-
-    while True:
-        command = str(input('''
-            ¿Qué deseas hacer?
-
-            [p]render
-            [a]pagar
-            [s]alir
-        '''))
-
-        if command == 'p':
-            lamp.turn_on()
-        elif command == 'a':
-            lamp.turn_off()
+        if password == 'platzi':
+            return func()
         else:
-            break
+            print('La contraseña es incorrecta')
+
+    return wrapper
+
+
+@protected
+def protected_func():
+    print('Tu contraseña es correcta.')
 
 
 if __name__ == '__main__':
-    run()
+    password = str(input('Ingresa tu contraseña: '))
+
+    protected_func(password)
