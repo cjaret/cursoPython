@@ -1,10 +1,24 @@
-def run():
-    counter = 0
-    with open('./aleph.txt', encoding="utf-8") as f:
-        for line in f.readlines():
-            counter += line.count('Beatriz') #count() es un método de strings
+from lamp import Lamp
 
-    print('Beatriz se encuentra {} en el texto'.format(counter))
+
+def run():
+    lamp = Lamp(is_turned_on=False)
+
+    while True:
+        command = str(input('''
+            ¿Qué deseas hacer?
+
+            [p]render
+            [a]pagar
+            [s]alir
+        '''))
+
+        if command == 'p':
+            lamp.turn_on()
+        elif command == 'a':
+            lamp.turn_off()
+        else:
+            break
 
 
 if __name__ == '__main__':
