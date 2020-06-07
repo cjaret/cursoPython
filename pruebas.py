@@ -1,133 +1,38 @@
-KEYS = {
-    'a': 'w',
-    'b': 'E',
-    'c': 'x',
-    'd': '1',
-    'e': 'a',
-    'f': 't',
-    'g': '0',
-    'h': 'C',
-    'i': 'b',
-    'j': '!',
-    'k': 'z',
-    'l': '8',
-    'm': 'M',
-    'n': 'I',
-    'o': 'd',
-    'p': '.',
-    'q': 'U',
-    'r': 'Y',
-    's': 'i',
-    't': '3',
-    'u': ',',
-    'v': 'J',
-    'w': 'N',
-    'x': 'f',
-    'y': 'm',
-    'z': 'W',
-    'A': 'G',
-    'B': 'S',
-    'C': 'j',
-    'D': 'n',
-    'E': 's',
-    'F': 'Q',
-    'G': 'o',
-    'H': 'e',
-    'I': 'u',
-    'J': 'g',
-    'K': '2',
-    'L': '9',
-    'M': 'A',
-    'N': '5',
-    'O': '4',
-    'P': '?',
-    'Q': 'c',
-    'R': 'r',
-    'S': 'O',
-    'T': 'P',
-    'U': 'h',
-    'V': '6',
-    'W': 'q',
-    'X': 'H',
-    'Y': 'R',
-    'Z': 'l',
-    '0': 'k',
-    '1': '7',
-    '2': 'X',
-    '3': 'L',
-    '4': 'p',
-    '5': 'v',
-    '6': 'T',
-    '7': 'V',
-    '8': 'y',
-    '9': 'K',
-    '.': 'Z',
-    ',': 'D',
-    '?': 'F',
-    '!': 'B',
-}
+"""
+"abacabad" c
+"abacabaabacaba" _
+"abcdefghijklmnopqrstuvwxyziflskecznslkjfabe" d
+"bcccccccccccccyb" y
+"""
 
-def cypher(message):
-    words = message.split(' ')
-    cypher_message = []
+def first_not_repeating_char(char_sequence):
+    seen_letters = {}
 
-    for word in words:
-        cypher_word = ''
-        for letter in word:
-            cypher_word += KEYS[letter] #Esto es posible porque los valores de un diccionario no son del tipo list, ni dict, sino que tienen su propio valor
-
-        cypher_message.append(cypher_word)
-
-    return ' '.join(cypher_message)
-
-
-def decipher(message):
-    words = message.split(' ')
-    decipher_message = []
-
-    for word in words:
-        decipher_word = ''
-
-        for letter in word:
-
-            for key, value in KEYS.items(): #Ya que tenemos la palabra que queremos buscar necesitaremos el valor para cotejar y la llave para asignar el valor del caracter descifrado
-                if value == letter:
-                    decipher_word += key
-
-        decipher_message.append(decipher_word)
-
-    return ' '.join(decipher_message)
-
-
-def run():
-
-    while True:
-
-        command = str(input('''--- * --- * --- * --- * --- * --- * --- * ---
-
-            Bienvenido a criptografía. ¿Qué deseas hacer?
-
-            [c]ifrar mensaje
-            [d]ecifrar mensaje
-            [s]alir
-        '''))
-
-        if command == 'c':
-            message = str(input('Escribe tu mensaje: '))
-            cypher_message = cypher(message)
-            print(cypher_message)
-
-        elif command == 'd':
-            message = str(input('Escribe tu mensaje tu cifrado: '))
-            decypher_message = decipher(message)
-            print(decypher_message)
-        elif command == 's':
-            print('salir')
-            break
+    for idx, letter in enumerate(char_sequence):
+        if letter not in seen_letters:
+            seen_letters[letter] = (idx, 1)
         else:
-            print('¡Comando no encontrado!')
+            seen_letters[letter] = (seen_letters[letter][0], seen_letters[letter][1] + 1)
+
+    final_letters = []
+    for key, value in seen_letters.iteritems():
+        if value[1] == 1:
+            final_letters.append( (key, value[0]) )
+
+    not_repeated_letters = sorted(final_letters, key=lambda value: value[1])
+
+    if not_repeated_letters:
+        return not_repeated_letters[0][0]
+    else:
+        return '_'
 
 
 if __name__ == '__main__':
-    print('M E N S A J E S  C I F R A D O S')
-    run()
+    char_sequence = str(raw_input('Escribe una secuencia de caracteres: '))
+
+    result = first_not_repeating_char(char_sequence)
+
+    if result == '_':
+        print('Todos los caracteres se repiten.')
+    else:
+        print('El primer caracter no repetido es: {}'.format(result))
