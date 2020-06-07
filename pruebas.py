@@ -1,147 +1,133 @@
-import random 
-import os
+KEYS = {
+    'a': 'w',
+    'b': 'E',
+    'c': 'x',
+    'd': '1',
+    'e': 'a',
+    'f': 't',
+    'g': '0',
+    'h': 'C',
+    'i': 'b',
+    'j': '!',
+    'k': 'z',
+    'l': '8',
+    'm': 'M',
+    'n': 'I',
+    'o': 'd',
+    'p': '.',
+    'q': 'U',
+    'r': 'Y',
+    's': 'i',
+    't': '3',
+    'u': ',',
+    'v': 'J',
+    'w': 'N',
+    'x': 'f',
+    'y': 'm',
+    'z': 'W',
+    'A': 'G',
+    'B': 'S',
+    'C': 'j',
+    'D': 'n',
+    'E': 's',
+    'F': 'Q',
+    'G': 'o',
+    'H': 'e',
+    'I': 'u',
+    'J': 'g',
+    'K': '2',
+    'L': '9',
+    'M': 'A',
+    'N': '5',
+    'O': '4',
+    'P': '?',
+    'Q': 'c',
+    'R': 'r',
+    'S': 'O',
+    'T': 'P',
+    'U': 'h',
+    'V': '6',
+    'W': 'q',
+    'X': 'H',
+    'Y': 'R',
+    'Z': 'l',
+    '0': 'k',
+    '1': '7',
+    '2': 'X',
+    '3': 'L',
+    '4': 'p',
+    '5': 'v',
+    '6': 'T',
+    '7': 'V',
+    '8': 'y',
+    '9': 'K',
+    '.': 'Z',
+    ',': 'D',
+    '?': 'F',
+    '!': 'B',
+}
 
-#declaramos una constante con las diferentes posiciones del ahorcado
+def cypher(message):
+    words = message.split(' ')
+    cypher_message = []
 
-IMAGES = [
-'''
+    for word in words:
+        cypher_word = ''
+        for letter in word:
+            cypher_word += KEYS[letter] #Esto es posible porque los valores de un diccionario no son del tipo list, ni dict, sino que tienen su propio valor
 
-    +---+
-    |   |
-        |
-        |
-        |
-        |
-        =========''', '''
+        cypher_message.append(cypher_word)
 
-    +---+
-    |   |
-    O   |
-        |
-        |
-        |
-        =========''', '''
-
-    +---+
-    |   |
-    O   |
-    |   |
-        |
-        |
-        =========''', '''
-
-    +---+
-    |   |
-    O   |
-   /|   |
-        |
-        |
-        =========''', '''
-
-    +---+
-    |   |
-    O   |
-   /|\  |
-        |
-        |
-        =========''', '''
-
-    +---+
-    |   |
-    O   |
-   /|\  |
-    |   |
-        |
-        =========''', '''
-
-    +---+
-    |   |
-    O   |
-   /|\  |
-    |   |
-   /    |
-        =========''', '''
-
-    +---+
-    |   |
-    O   |
-   /|\  |
-    |   |
-   / \  |
-        =========''', '''
-'''
-
-]
+    return ' '.join(cypher_message)
 
 
-WORDS = [ 'secadora','moto','mariposa','computadora' ]   
+def decipher(message):
+    words = message.split(' ')
+    decipher_message = []
 
-def random_word():
-    word = WORDS[random.randrange(len(WORDS))]
-    return word
+    for word in words:
+        decipher_word = ''
 
-def display_board(hidden_word,tries):
-    print(IMAGES[tries])
-    print (hidden_word)
+        for letter in word:
+
+            for key, value in KEYS.items(): #Ya que tenemos la palabra que queremos buscar necesitaremos el valor para cotejar y la llave para asignar el valor del caracter descifrado
+                if value == letter:
+                    decipher_word += key
+
+        decipher_message.append(decipher_word)
+
+    return ' '.join(decipher_message)
+
 
 def run():
-    word = random_word()
-    hidden_word=[' __ ']*len(word)
-    tries = 0
 
     while True:
-        display_board(hidden_word,tries)
-        current_letter = str(input('ingresa la letra : '))
 
-        index =[]
-        for idx in range(len(word)):
-            if current_letter == word[idx]:
-                index.append(idx) 
-                # print(index) => Muestra los index donde estan las letras
+        command = str(input('''--- * --- * --- * --- * --- * --- * --- * ---
 
-        if len(index)==0 or hidden_word[index[0]]!=' __ ':
-            tries+=1
-            if tries == 7:
-                display_board(hidden_word,tries)
-                print('\n')
-                print('¡Perdiste! La palabra escondida es {}'.format(word))
-                break
+            Bienvenido a criptografía. ¿Qué deseas hacer?
 
-        else:
-            for i in range(len(index)):
-                hidden_word[index[i]]=current_letter
-           
-        try:
-            hidden_word.index(' __ ')
-        except ValueError:
-            display_board(hidden_word,tries)
-            print('\n')
-            print('¡Felicidades!!! ganaste')
+            [c]ifrar mensaje
+            [d]ecifrar mensaje
+            [s]alir
+        '''))
+
+        if command == 'c':
+            message = str(input('Escribe tu mensaje: '))
+            cypher_message = cypher(message)
+            print(cypher_message)
+
+        elif command == 'd':
+            message = str(input('Escribe tu mensaje tu cifrado: '))
+            decypher_message = decipher(message)
+            print(decypher_message)
+        elif command == 's':
+            print('salir')
             break
+        else:
+            print('¡Comando no encontrado!')
 
-        os.system('cls')
-       
-        
-if __name__=='__main__':
 
-    print(''' 
-
-  ____  _                           _     _       
- |  _ \(_)                         (_)   | |      
- | |_) |_  ___ _ ____   _____ _ __  _  __| | ___  
- |  _ <| |/ _ \ '_ \ \ / / _ \ '_ \| |/ _` |/ _ \ 
- | |_) | |  __/ | | \ V /  __/ | | | | (_| | (_) |
- |____/|_|\___|_| |_|\_/ \___|_| |_|_|\__,_|\___/ 
-                                                  
-               +---+
-           |   |
-           o
-          /|\  |
-           |   |
-          / \  |
-          =========                                         
-*************************************************
-\n \n \n
- ''')
-  
+if __name__ == '__main__':
+    print('M E N S A J E S  C I F R A D O S')
     run()
